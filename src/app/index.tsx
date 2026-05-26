@@ -1,17 +1,28 @@
-import { Text, View, StyleSheet } from "react-native";
+import { Redirect } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { View } from 'react-native';
+import { useLifeStore } from '@/store/useLifeStore';
 
+// Reads the zustand persist hydration state so we never redirect before
+// AsyncStorage has finished rehydrating — avoids a flash to /onboarding
+// on every cold launch for returning users.
 export default function Index() {
-  return (
-    <View style={styles.container}>
-      <Text>Edit src/app/index.tsx to edit this screen.</Text>
-    </View>
+  const [hydrated, setHydrated] = useState(
+    () => useLifeStore.persist.hasHydrated(),
   );
-}
+  const hasCompletedQuiz = useLifeStore((s) => s.hasCompletedQuiz);
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
+  useEffect(() => {
+    if (hydrated) return;
+    return useLifeStore.persist.onFinishHydration(() => setHydrated(true));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Black screen while store rehydrates — identical to background colour so there's no flash.
+  if (!hydrated) {
+    return <View style={{ flex: 1, backgroundColor: '#0c0c0c' }} />;
+  }
+
+  // @ts-expect-error — route types are stale; `npx expo start` regenerates them.
+  return <Redirect href={hasCompletedQuiz ? '/(tabs)/' : '/onboarding'} />;
+}
