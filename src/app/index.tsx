@@ -23,6 +23,5 @@ export default function Index() {
     return <View style={{ flex: 1, backgroundColor: '#0c0c0c' }} />;
   }
 
-  // @ts-expect-error — route types are stale; `npx expo start` regenerates them.
-  return <Redirect href={hasCompletedQuiz ? '/(tabs)/' : '/onboarding'} />;
+  return <Redirect href={hasCompletedQuiz ? '/(tabs)' : '/onboarding'} />;
 }

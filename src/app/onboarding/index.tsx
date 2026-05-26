@@ -201,19 +201,16 @@ export default function OnboardingScreen() {
   async function handleShare() {
     await requestNotificationPermission();
     await scheduleDailyNotification(calculatedDays);
-    // @ts-expect-error — route types are stale; `npx expo start` regenerates them.
-    router.replace('/(tabs)/');
+    router.replace('/(tabs)');
   }
 
   function handleRefine() {
     // /onboarding/refine is built in a later prompt — go home for now.
-    // @ts-expect-error — route types are stale; `npx expo start` regenerates them.
-    router.replace('/(tabs)/');
+    router.replace('/(tabs)');
   }
 
   function handleContinue() {
-    // @ts-expect-error — route types are stale; `npx expo start` regenerates them.
-    router.replace('/(tabs)/');
+    router.replace('/(tabs)');
   }
 
   // Reveal step uses the full screen — render before the shared chrome.
