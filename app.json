@@ -1,34 +1,50 @@
 {
   "expo": {
-    "name": "one-life",
+    "name": "One Life",
     "slug": "one-life",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
     "scheme": "onelife",
     "userInterfaceStyle": "automatic",
-    "ios": {
-      "icon": "./assets/expo.icon"
+    "icon": "./assets/images/icon.png",
+
+    "splash": {
+      "backgroundColor": "#0c0c0c",
+      "resizeMode": "contain",
+      "image": "./assets/images/splash-icon.png"
     },
+
+    "ios": {
+      "icon": "./assets/images/icon.png",
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yourname.onelife"
+    },
+
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#0c0c0c",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
         "backgroundImage": "./assets/images/android-icon-background.png",
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.yourname.onelife"
     },
+
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
+
     "plugins": [
       "expo-router",
+      "expo-notifications",
+      "expo-sharing",
+      "expo-secure-store",
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#0c0c0c",
           "android": {
             "image": "./assets/images/splash-icon.png",
             "imageWidth": 76
@@ -36,9 +52,9 @@
         }
       ]
     ],
+
     "experiments": {
-      "typedRoutes": true,
-      "reactCompiler": true
+      "typedRoutes": true
     }
   }
 }
