@@ -62,11 +62,15 @@ export function getCurrentYearProgress(units: TimeUnits, totalLifeYears: number)
   return { currentIndex, total: Math.ceil(totalLifeYears), progress };
 }
 
-/** Days grid: each square = 1 day. Current square = remaining whole days. */
-export function getDayGridInfo(units: TimeUnits): GridInfo {
-  const floored = Math.floor(units.days);
-  const progress = units.days - floored;
-  return { currentIndex: floored, total: floored + 1, progress };
+/** Days grid: shows every day in the current calendar month. Today's square is active. */
+export function getDayOfMonthGridInfo(): GridInfo {
+  const now = new Date();
+  const dayOfMonth = now.getDate(); // 1-based
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const secondsIntoDay =
+    now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds() + now.getMilliseconds() / 1000;
+  const progress = secondsIntoDay / 86400;
+  return { currentIndex: dayOfMonth - 1, total: daysInMonth, progress };
 }
 
 /** Hours grid within the current day: 0–23. */

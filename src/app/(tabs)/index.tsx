@@ -19,7 +19,7 @@ import { WeekGrid } from '@/components/WeekGrid';
 import { getDailyQuote } from '@/lib/quotes';
 import {
   getLiveTimeUnits,
-  getDayGridInfo,
+  getDayOfMonthGridInfo,
   getHourOfDayGridInfo,
   getMinuteOfHourGridInfo,
   getSecondOfMinuteGridInfo,
@@ -56,8 +56,8 @@ function SubTabBar({
       contentContainerStyle={{
         flexDirection: 'row',
         paddingHorizontal: 20,
-        paddingVertical: 10,
-        gap: 6,
+        paddingVertical: 6,
+        gap: 5,
       }}
     >
       {SUB_TABS.map(({ key, label }) => {
@@ -67,9 +67,9 @@ function SubTabBar({
             key={key}
             onPress={() => onChange(key)}
             style={{
-              paddingHorizontal: 14,
-              paddingVertical: 6,
-              borderRadius: 20,
+              paddingHorizontal: 10,
+              paddingVertical: 4,
+              borderRadius: 14,
               backgroundColor: isActive ? '#d4537e' : '#111',
               borderWidth: 0.5,
               borderColor: isActive ? '#d4537e' : '#222',
@@ -136,21 +136,19 @@ function GridSubTab({ units, daysRemaining, quizAge, tab }: GridTabProps) {
   }
 
   if (tab === 'days') {
-    const info = getDayGridInfo(units);
-    // Show last 365 days remaining for readability
-    const displayTotal = Math.min(info.total, 365 * 5);
-    const displayIndex = info.currentIndex < displayTotal ? info.currentIndex : displayTotal - 1;
+    const info = getDayOfMonthGridInfo();
     return (
       <View style={{ paddingHorizontal: 24 }}>
-        <Text style={sectionLabel}>remaining days</Text>
+        <Text style={sectionLabel}>days this month</Text>
         <TimeGrid
-          total={displayTotal}
-          currentIndex={displayIndex}
+          total={info.total}
+          currentIndex={info.currentIndex}
           progress={info.progress}
           accentColor="#d4537e"
-          cols={30}
+          countUp
+          cols={7}
         />
-        <Text style={gridCaption}>{Math.floor(units.days).toLocaleString()} days remaining</Text>
+        <Text style={gridCaption}>day {info.currentIndex + 1} of {info.total}</Text>
       </View>
     );
   }
@@ -280,8 +278,9 @@ export default function HomeScreen() {
           paddingBottom: 4,
         }}
       >
-        <Text style={{ fontSize: 13, color: '#333', letterSpacing: 0.08 * 13 }}>
-          one life
+        <Text style={{ fontSize: 13 }}>
+          <Text style={{ color: '#f0f0f0' }}>One</Text>
+          <Text style={{ color: '#555' }}>Life</Text>
         </Text>
         <Text style={{ fontSize: 12, color: streak > 0 ? '#d4537e' : '#333' }}>
           {streak > 0 ? `🔥 ${streak} day streak` : '🔥 0 day streak'}
